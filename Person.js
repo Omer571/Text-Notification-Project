@@ -14,6 +14,7 @@ class Person {
   getPhoneNumber() {
     return this.phoneNumber;
   }
+
 }
 
 module.exports = Person;

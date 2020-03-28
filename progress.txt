@@ -1,0 +1,13 @@
+Friday, March 27th, 2020
+- Made and connected git and github
+- set up gitignore and env
+- Set up name and number validation using 'mongoose-beautiful-unique-validation'
+- Prevented exact duplicates in mongoose with unique
+- Set up basic database
+- Worked on Messenger Class Functions
+
+TODO:
+- change all sensitive info to env
+- add personal note to person class
+- create custom errors
+- take js clean code class or book
