@@ -1,0 +1,24 @@
+Views
+- easy to understand
+-ejs, hbs, or some other template engine files
+
+Controller
+- contains logic
+- for example logging in logic (for users.js or admins.js etc)
+- handles responses (res)
+
+Model
+- models our data (mongoose schemas are here)
+- has rules (such as functions which are exported to validate user input)
+- models define the types of information that get used by your views and controllers.
+
+A REST API is a stateless interface to your application. In the case of the
+MERN or MEAN stack, the REST API is used to create a stateless interface to your
+database, enabling a way for other applications to work with the data.
+
+-----------
+
+app_api
+- models are db schemas
+- controllers are functions (getting and setting data etc)
+- routes are the handlers

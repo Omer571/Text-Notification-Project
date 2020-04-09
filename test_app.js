@@ -1,10 +1,10 @@
 //  jshint esversion: 6
-
+console.log('Current directory (test_app): ' + process.cwd());
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
-const router = require("./router");
+const router = require("./app_api/routes/index.js");
 
 app.set("view engine", "ejs");
 app.use(express.static('public'));

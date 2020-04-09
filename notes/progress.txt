@@ -6,6 +6,12 @@ Friday, March 27th, 2020
 - Set up basic database
 - Worked on Messenger Class Functions
 
+Tuesday, March 31st, 2020
+- Reworked Messenger class to properly use multiple collections
+- Made Group Class
+- Respecified needed functionality in order
+- Stopped at sendMessageFunction
+
 TODO:
 - change all sensitive info to env
 - add personal note to person class

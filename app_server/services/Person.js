@@ -1,6 +1,5 @@
 // jshint esversion: 6
 
-
 class Person {
   constructor(name, phoneNumber) {
     this.name = name;
