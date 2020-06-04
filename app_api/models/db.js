@@ -1,5 +1,4 @@
 // jshint esversion: 6
-
 const mongoose  = require('mongoose');
 
 let mongoURI = 'mongodb://localhost:27017/notificationDB';

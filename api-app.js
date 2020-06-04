@@ -4,14 +4,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
-const router = require("./app_api/routes/index.js");
+const apiRoutes = require('./app_api/routes/index');
 
 app.set("view engine", "ejs");
 app.use(express.static('public'));
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/", router);
+app.use("/", apiRoutes);
 
 app.listen(3000, function(err) {
   if (err) {

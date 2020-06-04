@@ -1,0 +1,36 @@
+{
+  "name": "text-notification-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "api-app.js",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "mongo": "^0.1.0",
+    "mongodb": "^3.5.4",
+    "mongoose": "^5.9.16",
+    "mongoose-beautiful-unique-validation": "^7.1.1",
+    "mongoose-unique-array": "^0.3.4",
+    "nodeman": "^1.1.2",
+    "nodemon": "^2.0.4",
+    "twilio": "^3.39.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "server": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Omer571/Text-Notification-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Omer571/Text-Notification-Project/issues"
+  },
+  "homepage": "https://github.com/Omer571/Text-Notification-Project#readme"
+}

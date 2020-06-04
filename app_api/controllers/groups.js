@@ -1,99 +1,200 @@
-// jshint esversion: 6
+// jshint esversion: 8
 
 console.log('Current directory (group.js controller): ' + process.cwd());
-const Group = require('../models/Group');
-// TODO: Include model of deleted people which includes group
 
-// creation methods
+const mongoose = require('mongoose');
+const ctrl = require('../models/Group');
+const Group = ctrl.Group;
 
-const addPerson = function(req, res) {
-  const newPerson = new Person({
-    name: req.body.name,
-    number: req.body.number,
-    note: req.body.note
-  });
-  newPerson.save(function(err) {
+// Only takes groupName from request body
+const groupsCreate = function(req, res) {
+  if (req.body.groupName) {
+    console.log(req.body);
+    let groupName = req.body.groupName;
+    let groupNote = req.body.groupNote;
+
+    Group.create({
+      _id: new mongoose.Types.ObjectId(),
+      name: req.body.groupName,
+      // people: [],
+      // messages: [],
+      note: req.body.groupNote,
+      // deletedPeople: []
+    }, function(err, group) {
+        if (err) {
+          console.log(err);
+          res
+            .status(400)
+            .json(err);
+        } else {
+          res
+            .status(201)
+            .json(group);
+        }
+      }
+    );
+
+  } else {
+    res
+      .status(404)
+      .json({
+        "message": "No group name specified"
+      });
+  }
+
+};
+
+const groupsReadAll = function(req, res) {
+  Group
+    .find()
+    .exec((err, foundGroups) => {
+      if (!foundGroups) {
+        res
+          .status(404)
+          .json({
+            "message": "No groups"
+          });
+        return;
+      } else if (err) {
+        res
+          .status(400)
+          .json(err);
+        return;
+      } else {
+        res
+          .status(200)
+          .json(foundGroups);
+      }
+    });
+};
+
+const groupsDeleteAll = function(req, res) {
+  Group.remove({}, function(err) {
     if (err) {
-      console.log(err);
-    } else {
-      console.log("Message Should be saved");
+      res
+        .status(404)
+        .json(err);
     }
+    res
+      .status(204)
+      .json(null);
   });
 };
 
-const addMessage = function(req, res) {
-  const groupId = req.body.groupId;
-  const message = new Message({
-    body: req.body.messageBody
-  });
-
-  Group.update(
-    { _id: groupId },
-    { $push: { messages: message } }
-  );
-};
-
-const changeGroupName = function(req, res) {
-  const groupId = req.body.groupId;
-  const newGroupName = req.body.newGroupName;
-  const group = await Group.findOne({
-    _id: groupId
-  })
-  .exec();
-
-  group.name = newGroupName;
-  await group.save();
-};
-
-// all methods
-
-const getAllMessages = function(req, res) {
-  const groupId = req.body.groupId;
-  Group.findOne({_id: groupId}, function(err, foundGroup) {
-    if (!err) {
-      res.send(foundGroup.messages);
-    } else {
-      res.send(err);
-    }
-  });
-
-};
-
-const getAllPeople = function(req, res) {
-  const groupId = req.body.groupId;
-  Group.findOne({_id: groupId}, function(err, foundGroup) {
-    if (!err) {
-      res.send(foundGroup.people);
-    } else {
-      res.send(err);
-    }
-  });
-
-  const deleteAllPeople = function(req, res) {
-    const groupId = req.body.groupId;
-    const group = await Group.findOne({
-      _id: groupId
-    })
-    .exec();
-
-    // TODO: Add deleted person to deleted person collection (with group attribute)
-    group.people = [];
-    await group.save();
-  }
-
-  const deleteAllMessages = function(req, res) {
-    const groupId = req.body.groupId;
-    const group = await Group.findOne({
-      _id: groupId
-    })
-    .exec();
-
-    group.messages = [];
-    await group.save();
+const groupsReadOne = function(req, res) {
+  if (req.params && req.params.groupid) {
+    Group
+      .findById(req.params.groupid)
+      .exec((err, foundGroup) => {
+        if (!foundGroup) {
+          res
+            .status(404)
+            .json({
+              "message": "groupid not found"
+            });
+          return;
+        } else if (err) {
+          res
+            .status(400)
+            .json(err);
+          return;
+        }
+        if (foundGroup) {
+          res
+            .status(200)
+            .json(foundGroup);
+        }
+      });
+  } else {
+    res
+    .status(404)
+    .json({
+      "message": "No groupid in request"
+    });
   }
 };
 
-// some methods
+const groupsUpdateOne = function(req, res) {
+  if (!req.params || !req.params.groupid) {
+    res
+      .status(404)
+      .json({
+        "message": "Not found, groupid is required"
+      });
+    return;
+  }
+
+  Group
+    .findById(req.params.groupid)
+    .exec((err, foundGroup) => {
+      if (!foundGroup) {
+        res
+          .json(404)
+          .status({
+            "message": "groupid not found"
+          });
+        return;
+      } else if (err) {
+        res
+          .status(400)
+          .json(err);
+        return;
+      }
+
+      if (req.body.groupName)
+        foundGroup.name = req.body.groupName;
+      if (req.body.groupPeople)
+        foundGroup.people = req.body.groupPeople;
+      if (req.body.groupMessages)
+        foundGroup.messages = req.body.groupMessages;
+      if (req.body.groupNote)
+        foundGroup.note = req.body.groupNote;
+
+      foundGroup.save((err, group) => {
+        if (err) {
+          res
+            .status(400)
+            .json(err);
+        } else {
+          res
+            .status(200)
+            .json(group);
+        }
+      });
+
+    });
+};
+
+const groupsDeleteOne = function(req, res) {
+  const groupid = req.params.groupid;
+  if (groupid) {
+    Group
+      .findByIdAndRemove(groupid)
+      .exec((err, foundGroup) => {
+        if (err) {
+          res
+            .status(400)
+            .json(err);
+        } else {
+          res
+            .status(204)
+            .json(null);
+        }
+      });
+  } else {
+    res
+      .status(404)
+      .json({
+        "message": "No groupid"
+      });
+  }
+};
 
 
-// single methods
+module.exports.groupsReadAll = groupsReadAll;
+module.exports.groupsCreate = groupsCreate;
+module.exports.groupsDeleteAll = groupsDeleteAll;
+
+module.exports.groupsReadOne = groupsReadOne;
+module.exports.groupsUpdateOne = groupsUpdateOne;
+module.exports.groupsDeleteOne = groupsDeleteOne;

@@ -12,8 +12,71 @@ Tuesday, March 31st, 2020
 - Respecified needed functionality in order
 - Stopped at sendMessageFunction
 
+Saturday, April 11th, 2020
+- Remade whole architecture
+- Made most of app_api
+
 TODO:
+- Test database and API
+- Current Problem: We can't get people from group because we can not populate properly
+- When getting group, make sure to populate people with names instead of id's
+- Solution: fuck populate, rework code
+- Second Problem: Taking duplicate names for person. Reset db and test from beginning after rework for problem
+
+- Take Udemy design course
+- Design Website (based on other beatiful websites seen)
+
+- Learn React
+
+- Make Front end (simple first)
+
+- Make App Server controllers
+- Make App Server Routes
+- Graceful Exit of mongoose
 - change all sensitive info to env
-- add personal note to person class
-- create custom errors
+- create custom errors (and error pages with React)
 - take js clean code class or book
+- Test Website using front end
+- Upgrade Twilio membership
+- Make Better Front-End
+- Deploy Website on Github
+- Write github documentation for project
+- Start Learning Go and brain-storming next project!
+
+DONE:
+- Learn how to write automated postman tests
+- Hand trace each API method and make sure it makes sense
+- Go through people controller and check for params and body info in functions
+  as well as sending proper responses (including error codes and success status)
+- Go through group controller and check for params and body info in functions
+  as well as sending proper responses (including error codes and success status)
+- Write groupsDeleteOne()
+- Go through messages controller and check for params and body info in functions
+  as well as sending proper responses (including error codes and success status)
+- Figure out how peopleUpdateOne would work
+- Correct names of api controller methods
+- Write new routes
+- Separate controller into people.js, messages.js and groups.js
+- Separate the models in Group.js
+- Make deleted person collection (each table will be based on Group)
+- Add deleted person to deleted person collection (with group attribute)
+- Finish Update Person Helper then deletePerson
+- add personal note to person class
+- Make interconnections between group and person schema via populate methods
+
+NOTES:
+- Group update currently updates both note and name. Depending on what we send
+we may have to change this
+- When updating, make sure if nothing is inputed, old information is passed
+
+TESTING:
+
+/groups
+- Post test successful
+- Get test successful
+- Delete test successful
+
+/groups/:groupid
+- Get test successful
+- Delete test successful
+- Put test successful
